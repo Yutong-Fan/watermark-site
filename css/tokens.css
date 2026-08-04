@@ -1,0 +1,82 @@
+/* 设计令牌：纸感主题
+   颜色与字体全部由阶段一感受（纸感、清单、直白）推导 */
+
+@layer tokens {
+  :root {
+    /* 纸感浅色 */
+    --paper: #f6f2ea;
+    --surface: #fcfaf5;
+    --ink: #2a2724;
+    --ink-2: #6e6a62;
+    --ink-3: #97917f;
+    --line: #e3dccd;
+    --seal: #b23a2e;
+    --seal-deep: #8e2f26;
+    --seal-soft: #f3e5e0;
+
+    /* 字体 */
+    --font-serif: "Noto Serif SC", "Source Han Serif SC", "Songti SC", "SimSun", serif;
+    --font-sans: "PingFang SC", "HarmonyOS Sans SC", "MiSans", "Noto Sans SC", system-ui, -apple-system, sans-serif;
+    --font-mono: ui-monospace, "SF Mono", "Cascadia Code", Consolas, monospace;
+
+    /* 间距体系 4/8/16/24/32/48/64/96 */
+    --s-1: 0.25rem;
+    --s-2: 0.5rem;
+    --s-3: 1rem;
+    --s-4: 1.5rem;
+    --s-5: 2rem;
+    --s-6: 3rem;
+    --s-7: 4rem;
+    --s-8: 6rem;
+
+    /* 字号 */
+    --text-sm: clamp(0.8125rem, 0.78rem + 0.15vw, 0.875rem);
+    --text: clamp(1rem, 0.97rem + 0.15vw, 1.125rem);
+    --text-lg: clamp(1.125rem, 1.05rem + 0.3vw, 1.375rem);
+    --h2: clamp(1.5rem, 1.1rem + 1.7vw, 2.25rem);
+    --h1: clamp(2.1rem, 1.15rem + 4vw, 3.5rem);
+
+    /* 缓动 */
+    --ease: cubic-bezier(0.22, 1, 0.36, 1);
+    --t-fast: 160ms;
+    --t-in: 520ms;
+
+    /* 布局 */
+    --container: min(100% - 2rem, 72rem);
+    --measure: 62ch;
+  }
+
+  /* 深夜纸感：暖黑底，非简单反色
+     默认跟随系统；data-theme 属性可手动强制（见 main.js） */
+  @media (prefers-color-scheme: dark) {
+    :root:not([data-theme="light"]) {
+      --paper: #211f1b;
+      --surface: #292620;
+      --ink: #e9e3d8;
+      --ink-2: #a8a191;
+      --ink-3: #7d7768;
+      --line: #3a362e;
+      --seal: #d96a5a;
+      --seal-deep: #e88a7c;
+      --seal-soft: #3a2a26;
+    }
+  }
+
+  :root[data-theme="dark"] {
+    --paper: #211f1b;
+    --surface: #292620;
+    --ink: #e9e3d8;
+    --ink-2: #a8a191;
+    --ink-3: #7d7768;
+    --line: #3a362e;
+    --seal: #d96a5a;
+    --seal-deep: #e88a7c;
+    --seal-soft: #3a2a26;
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    :root {
+      --t-in: 0ms;
+    }
+  }
+}
