@@ -14,17 +14,24 @@
     padding-block: var(--s-6);
   }
 
+  /* 交替底色带：功能区用白色带与前后灰底区分 */
+  .section-alt {
+    background: var(--surface);
+    border-block: 1px solid color-mix(in srgb, var(--line) 60%, transparent);
+  }
+
   .eyebrow {
     font-size: var(--text-sm);
-    color: var(--seal);
+    color: var(--accent);
     font-weight: 600;
-    letter-spacing: 0.12em;
+    letter-spacing: 0.1em;
     margin-block-end: var(--s-2);
   }
 
   h2 {
     font-size: var(--h2);
-    margin-block-end: var(--s-5);
+    letter-spacing: -0.015em;
+    margin-block-end: var(--s-4);
   }
 
   .lead {
@@ -33,36 +40,49 @@
     max-width: var(--measure);
   }
 
-  /* Hero：左对齐大标题 + 直白说明 + 色卡 */
+  /* ===== Hero ===== */
   .hero {
-    padding-block: clamp(3rem, 6vw, 5.5rem) var(--s-7);
+    position: relative;
+    padding-block: clamp(4rem, 8vw, 7rem) var(--s-7);
+    overflow: hidden;
+  }
+
+  /* 苹果风柔光背景：右上蓝、左下浅蓝 */
+  .hero::before {
+    content: "";
+    position: absolute;
+    inset: 0;
+    background:
+      radial-gradient(
+        62% 52% at 88% 16%,
+        color-mix(in srgb, var(--accent) 12%, transparent),
+        transparent 72%
+      ),
+      radial-gradient(
+        55% 45% at 8% 88%,
+        color-mix(in srgb, var(--accent) 7%, transparent),
+        transparent 72%
+      );
+    pointer-events: none;
   }
 
   .hero-grid {
+    position: relative;
     display: grid;
     grid-template-columns: 1fr;
     gap: var(--s-6);
+    align-items: center;
   }
 
   .hero h1 {
     font-size: var(--h1);
+    line-height: 1.08;
+    letter-spacing: -0.02em;
     margin-block-end: var(--s-4);
   }
 
   .hero h1 .mark {
-    position: relative;
-    color: var(--seal);
-  }
-
-  .hero h1 .mark::after {
-    content: "";
-    position: absolute;
-    inset-inline: 0;
-    inset-block-end: 0.04em;
-    height: 0.14em;
-    background: var(--seal);
-    opacity: 0.25;
-    border-radius: 2px;
+    color: var(--accent);
   }
 
   .hero .lead {
@@ -81,13 +101,13 @@
     color: var(--ink-3);
   }
 
-  /* 分隔区标题 */
+  /* ===== 分隔区标题 ===== */
   .split-head {
     display: flex;
     align-items: baseline;
     justify-content: space-between;
     gap: var(--s-4);
-    margin-block-end: var(--s-5);
+    margin-block-end: var(--s-4);
   }
 
   .split-head h2 {
@@ -101,7 +121,7 @@
     max-width: 24rem;
   }
 
-  /* 滚动显现 */
+  /* ===== 滚动显现 ===== */
   .reveal {
     opacity: 0;
     transform: translateY(0.875rem);
@@ -115,12 +135,37 @@
     transform: none;
   }
 
-  /* 断点由内容决定：色卡在宽屏并排时 */
+  /* ===== 断点 ===== */
+
+  /* 宽屏：Hero 左右两栏 */
   @media (min-width: 56rem) {
     .hero-grid {
       grid-template-columns: minmax(0, 1.05fr) minmax(0, 0.95fr);
-      align-items: center;
       gap: var(--s-7);
+    }
+  }
+
+  /* 步骤区在宽屏改为四列卡片式 */
+  @media (min-width: 56rem) {
+    .steps {
+      grid-template-columns: repeat(4, minmax(0, 1fr));
+      gap: var(--s-5) var(--s-4);
+    }
+
+    .steps li {
+      grid-template-columns: 1fr;
+      gap: var(--s-2);
+      padding-block: 0;
+      border-block-start: 1px solid var(--line);
+      padding-block-start: var(--s-4);
+    }
+
+    .steps li:last-child {
+      border-block-end: none;
+    }
+
+    .steps .step-no {
+      margin-block-end: var(--s-1);
     }
   }
 
@@ -137,6 +182,10 @@
 
     .getcard-icon {
       order: -1;
+    }
+
+    .colorcard {
+      padding: var(--s-3);
     }
   }
 }

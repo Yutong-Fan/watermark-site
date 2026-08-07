@@ -1,0 +1,313 @@
+/* 动效层：载入编排、滚动显现增强、环境氛围、微交互
+   编排思路：导航滑入 → hero 文案逐行浮起 → 强调词下划线绘制
+   → 色卡浮入 + 扫描光带（"分析中"）→ 五块色卡依次着色 → 提示浮现
+   所有动画尊重 prefers-reduced-motion */
+
+@layer motion {
+  /* ===== 关键帧 ===== */
+  @keyframes rise-in {
+    from {
+      opacity: 0;
+      transform: translateY(1.1rem);
+    }
+    to {
+      opacity: 1;
+      transform: none;
+    }
+  }
+
+  @keyframes drop-in {
+    from {
+      opacity: 0;
+      transform: translateY(-0.6rem);
+    }
+    to {
+      opacity: 1;
+      transform: none;
+    }
+  }
+
+  @keyframes mark-draw {
+    from {
+      transform: scaleX(0);
+    }
+    to {
+      transform: scaleX(1);
+    }
+  }
+
+  @keyframes scan {
+    0% {
+      transform: translateY(-101%);
+    }
+    55% {
+      transform: translateY(0);
+    }
+    100% {
+      transform: translateY(101%);
+    }
+  }
+
+  @keyframes dot-pulse {
+    0%,
+    100% {
+      opacity: 1;
+      transform: scale(1);
+    }
+    50% {
+      opacity: 0.35;
+      transform: scale(0.72);
+    }
+  }
+
+  @keyframes analyzing-out {
+    to {
+      opacity: 0;
+      visibility: hidden;
+    }
+  }
+
+  @keyframes swatch-in {
+    from {
+      opacity: 0;
+      clip-path: inset(0 0 100% 0);
+      transform: translateY(0.5rem);
+    }
+    to {
+      opacity: 1;
+      clip-path: inset(0 0 0 0);
+      transform: none;
+    }
+  }
+
+  @keyframes check-pop {
+    from {
+      transform: scale(0.55);
+    }
+    to {
+      transform: scale(1);
+    }
+  }
+
+  @keyframes glow-breathe {
+    from {
+      opacity: 0.7;
+    }
+    to {
+      opacity: 1;
+    }
+  }
+
+  /* ===== 载入编排 ===== */
+  .nav {
+    animation: drop-in 0.5s var(--ease) 0.02s backwards;
+  }
+
+  .hero .eyebrow {
+    animation: rise-in 0.6s var(--ease) 0.06s backwards;
+  }
+
+  .hero h1 {
+    animation: rise-in 0.65s var(--ease) 0.12s backwards;
+  }
+
+  .hero .lead {
+    animation: rise-in 0.65s var(--ease) 0.2s backwards;
+  }
+
+  .hero-actions {
+    animation: rise-in 0.6s var(--ease) 0.3s backwards;
+  }
+
+  .hero-note {
+    animation: rise-in 0.6s var(--ease) 0.38s backwards;
+  }
+
+  /* 强调词下划线绘制 */
+  .hero h1 .mark {
+    position: relative;
+  }
+
+  .hero h1 .mark::after {
+    content: "";
+    position: absolute;
+    inset-inline: 0;
+    inset-block-end: 0.06em;
+    height: 0.13em;
+    border-radius: 2px;
+    background: linear-gradient(90deg, var(--accent), var(--accent-grad-end));
+    transform-origin: 0 50%;
+    animation: mark-draw 0.55s var(--ease) 0.42s backwards;
+  }
+
+  /* ===== 示例色卡：分析时刻 ===== */
+  .colorcard {
+    animation: rise-in 0.65s var(--ease) 0.08s backwards;
+  }
+
+  /* 载入时一次扫描光带，模拟"分析中" */
+  .colorcard::after {
+    content: "";
+    position: absolute;
+    inset: 0;
+    border-radius: inherit;
+    background: linear-gradient(
+      180deg,
+      transparent 0%,
+      color-mix(in srgb, var(--accent) 11%, transparent) 50%,
+      transparent 100%
+    );
+    transform: translateY(-101%);
+    animation: scan 0.9s ease-in-out 0.15s backwards;
+    pointer-events: none;
+  }
+
+  .head-tip {
+    position: relative;
+    display: inline-flex;
+  }
+
+  .analyzing {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.375rem;
+    color: var(--accent);
+    font-weight: 500;
+    white-space: nowrap;
+    animation: analyzing-out 0.3s ease 0.95s forwards;
+  }
+
+  .analyzing .dot {
+    width: 0.5rem;
+    height: 0.5rem;
+    border-radius: 50%;
+    background: var(--accent);
+    animation: dot-pulse 0.9s ease-in-out infinite;
+  }
+
+  .click-hint {
+    position: absolute;
+    inset: 0;
+    white-space: nowrap;
+    animation: rise-in 0.4s ease 1.05s backwards;
+  }
+
+  /* 五块色卡依次"着色"浮现 */
+  .swatch {
+    animation: swatch-in 0.45s var(--ease) backwards;
+  }
+
+  .swatch:nth-child(1) {
+    animation-delay: 0.52s;
+  }
+
+  .swatch:nth-child(2) {
+    animation-delay: 0.6s;
+  }
+
+  .swatch:nth-child(3) {
+    animation-delay: 0.68s;
+  }
+
+  .swatch:nth-child(4) {
+    animation-delay: 0.76s;
+  }
+
+  .swatch:nth-child(5) {
+    animation-delay: 0.84s;
+  }
+
+  /* 复制成功：对勾弹出 */
+  .swatch.copied .swatch-color::after {
+    animation: check-pop 0.3s var(--ease);
+  }
+
+  /* ===== 滚动显现增强：模糊淡入（.reveal 的 in 由 main.js 控制） ===== */
+  .reveal {
+    filter: blur(5px);
+    transition:
+      opacity var(--t-in) var(--ease),
+      transform var(--t-in) var(--ease),
+      filter var(--t-in) var(--ease);
+  }
+
+  .reveal.in {
+    filter: blur(0);
+  }
+
+  /* ===== 环境氛围：hero 柔光缓慢呼吸 ===== */
+  .hero::before {
+    animation: glow-breathe 8s ease-in-out infinite alternate;
+  }
+
+  /* ===== 微交互 ===== */
+  .btn:hover {
+    transform: translateY(-1px);
+  }
+
+  .btn:active {
+    transform: scale(0.97);
+  }
+
+  .btn-primary:hover {
+    box-shadow: 0 8px 26px color-mix(in srgb, var(--accent) 50%, transparent);
+  }
+
+  .theme-toggle svg {
+    transition: transform var(--t-fast) var(--ease);
+  }
+
+  .theme-toggle:hover svg {
+    transform: rotate(12deg) scale(1.1);
+  }
+
+  .getcard {
+    transition:
+      transform var(--t-fast) var(--ease),
+      box-shadow var(--t-fast) var(--ease);
+  }
+
+  .getcard:hover {
+    transform: translateY(-3px);
+    box-shadow: 0 18px 44px rgba(0, 0, 0, 0.14);
+  }
+
+  /* ===== 减弱动效：全部编排动画关闭，内容立即可见 ===== */
+  @media (prefers-reduced-motion: reduce) {
+    .nav,
+    .hero .eyebrow,
+    .hero h1,
+    .hero .lead,
+    .hero-actions,
+    .hero-note,
+    .hero h1 .mark::after,
+    .colorcard,
+    .swatch,
+    .click-hint,
+    .analyzing .dot,
+    .hero::before {
+      animation: none !important;
+    }
+
+    .colorcard::after,
+    .analyzing {
+      display: none !important;
+    }
+
+    .click-hint {
+      opacity: 1 !important;
+    }
+
+    .reveal {
+      filter: none !important;
+      transition: none !important;
+    }
+
+    .btn:hover,
+    .getcard:hover,
+    .swatch:hover,
+    .theme-toggle:hover svg {
+      transform: none !important;
+    }
+  }
+}

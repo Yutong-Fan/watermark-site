@@ -19,21 +19,22 @@
 
   body {
     margin: 0;
-    background: var(--paper);
+    background: var(--bg);
     color: var(--ink);
     font-family: var(--font-sans);
     font-size: var(--text);
-    line-height: 1.75;
+    line-height: 1.7;
     -webkit-font-smoothing: antialiased;
+    text-rendering: optimizeLegibility;
   }
 
   h1,
   h2,
   h3 {
-    font-family: var(--font-serif);
+    font-family: var(--font-sans);
     font-weight: 700;
-    line-height: 1.3;
-    letter-spacing: 0.02em;
+    line-height: 1.15;
+    letter-spacing: -0.015em;
     margin: 0;
   }
 
@@ -72,13 +73,13 @@
   }
 
   :focus-visible {
-    outline: 2px solid var(--seal);
+    outline: 2px solid var(--accent);
     outline-offset: 3px;
     border-radius: 2px;
   }
 
   ::selection {
-    background: var(--seal-soft);
+    background: var(--accent-soft);
     color: var(--ink);
   }
 }

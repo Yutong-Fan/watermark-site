@@ -1,23 +1,37 @@
-/* 设计令牌：纸感主题
-   颜色与字体全部由阶段一感受（纸感、清单、直白）推导 */
+/* 设计令牌：苹果官网风格
+   与 App 内 水印配色_主题 保持一致：
+   浅色 = 浅灰底白卡 + 苹果蓝，深色 = 纯黑底 + 亮蓝 */
 
 @layer tokens {
   :root {
-    /* 纸感浅色 */
-    --paper: #f6f2ea;
-    --surface: #fcfaf5;
-    --ink: #2a2724;
-    --ink-2: #6e6a62;
-    --ink-3: #97917f;
-    --line: #e3dccd;
-    --seal: #b23a2e;
-    --seal-deep: #8e2f26;
-    --seal-soft: #f3e5e0;
+    /* 浅色 */
+    --bg: #f5f5f7;
+    --surface: #ffffff;
+    --ink: #1d1d1f;
+    --ink-2: #6e6e73;
+    --ink-3: #86868b;
+    --line: #d2d2d7;
+    --accent: #0071e3;
+    --accent-deep: #0077ed;
+    --accent-grad-end: #2997ff;
+    --accent-soft: #e8f1fd;
+    --accent-soft-hover: #d9e9fb;
+    --shadow-sm: 0 1px 2px rgba(0, 0, 0, 0.04);
+    --shadow-md: 0 10px 34px rgba(0, 0, 0, 0.08);
 
-    /* 字体 */
-    --font-serif: "Noto Serif SC", "Source Han Serif SC", "Songti SC", "SimSun", serif;
-    --font-sans: "PingFang SC", "HarmonyOS Sans SC", "MiSans", "Noto Sans SC", system-ui, -apple-system, sans-serif;
+    /* 字体：全站无衬线，与 App 一致 */
+    --font-sans: -apple-system, BlinkMacSystemFont, "SF Pro SC", "SF Pro Text",
+      "PingFang SC", "HarmonyOS Sans SC", "MiSans", "Noto Sans SC", system-ui,
+      sans-serif;
+    --font-serif: var(--font-sans);
     --font-mono: ui-monospace, "SF Mono", "Cascadia Code", Consolas, monospace;
+
+    /* 圆角 */
+    --r-sm: 0.75rem;
+    --r-md: 1rem;
+    --r-lg: 1.25rem;
+    --r-xl: 1.5rem;
+    --r-pill: 980px;
 
     /* 间距体系 4/8/16/24/32/48/64/96 */
     --s-1: 0.25rem;
@@ -31,10 +45,10 @@
 
     /* 字号 */
     --text-sm: clamp(0.8125rem, 0.78rem + 0.15vw, 0.875rem);
-    --text: clamp(1rem, 0.97rem + 0.15vw, 1.125rem);
-    --text-lg: clamp(1.125rem, 1.05rem + 0.3vw, 1.375rem);
-    --h2: clamp(1.5rem, 1.1rem + 1.7vw, 2.25rem);
-    --h1: clamp(2.1rem, 1.15rem + 4vw, 3.5rem);
+    --text: clamp(1rem, 0.97rem + 0.15vw, 1.0625rem);
+    --text-lg: clamp(1.125rem, 1.05rem + 0.3vw, 1.25rem);
+    --h2: clamp(1.75rem, 1.25rem + 1.6vw, 2.5rem);
+    --h1: clamp(2.5rem, 1.6rem + 3.6vw, 4rem);
 
     /* 缓动 */
     --ease: cubic-bezier(0.22, 1, 0.36, 1);
@@ -42,36 +56,43 @@
     --t-in: 520ms;
 
     /* 布局 */
-    --container: min(100% - 2rem, 72rem);
+    --container: min(100% - 2.5rem, 68rem);
     --measure: 62ch;
   }
 
-  /* 深夜纸感：暖黑底，非简单反色
-     默认跟随系统；data-theme 属性可手动强制（见 main.js） */
+  /* 深色：纯黑底，与 App 的 取背景色(深色)=纯黑 一致 */
   @media (prefers-color-scheme: dark) {
     :root:not([data-theme="light"]) {
-      --paper: #211f1b;
-      --surface: #292620;
-      --ink: #e9e3d8;
-      --ink-2: #a8a191;
-      --ink-3: #7d7768;
-      --line: #3a362e;
-      --seal: #d96a5a;
-      --seal-deep: #e88a7c;
-      --seal-soft: #3a2a26;
+      --bg: #000000;
+      --surface: #1d1d1f;
+      --ink: #f5f5f7;
+      --ink-2: #86868b;
+      --ink-3: #6e6e73;
+      --line: #424245;
+      --accent: #2997ff;
+      --accent-deep: #339dff;
+      --accent-grad-end: #2997ff;
+      --accent-soft: #1d1d1f;
+      --accent-soft-hover: #2c2c2e;
+      --shadow-sm: 0 1px 2px rgba(0, 0, 0, 0.5);
+      --shadow-md: 0 12px 36px rgba(0, 0, 0, 0.55);
     }
   }
 
   :root[data-theme="dark"] {
-    --paper: #211f1b;
-    --surface: #292620;
-    --ink: #e9e3d8;
-    --ink-2: #a8a191;
-    --ink-3: #7d7768;
-    --line: #3a362e;
-    --seal: #d96a5a;
-    --seal-deep: #e88a7c;
-    --seal-soft: #3a2a26;
+    --bg: #000000;
+    --surface: #1d1d1f;
+    --ink: #f5f5f7;
+    --ink-2: #86868b;
+    --ink-3: #6e6e73;
+    --line: #424245;
+    --accent: #2997ff;
+    --accent-deep: #339dff;
+    --accent-grad-end: #2997ff;
+    --accent-soft: #1d1d1f;
+    --accent-soft-hover: #2c2c2e;
+    --shadow-sm: 0 1px 2px rgba(0, 0, 0, 0.5);
+    --shadow-md: 0 12px 36px rgba(0, 0, 0, 0.55);
   }
 
   @media (prefers-reduced-motion: reduce) {
