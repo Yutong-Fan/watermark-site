@@ -35,4 +35,4 @@
 
 ## 应用
 
-配套的 Android 应用（结绳开发）见 [Tiecode 项目](../watermark-color-helper)。
+配套的 Android 应用（结绳开发）见 [Tiecode 项目](../watermark-color-helper.apk)。
