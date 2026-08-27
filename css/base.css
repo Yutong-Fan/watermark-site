@@ -1,85 +1,79 @@
-/* 基础层：reset、排版、链接、焦点 */
+/* ═══════════════════════════════════════
+   base.css — 基础重置
+   ═══════════════════════════════════════ */
 
 @layer base {
-  *,
-  *::before,
-  *::after {
+
+  /* ── 盒模型 & tap 高亮清除 ── */
+  *, *::before, *::after {
     box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+    -webkit-tap-highlight-color: transparent !important;
   }
 
+  /* ── 文档根 ── */
   html {
     scroll-behavior: smooth;
-    scroll-padding-block-start: 5rem;
+    scroll-padding-block-start: calc(var(--nav-h) + 1.5rem);
+    color-scheme: light dark;
   }
 
-  html,
-  body {
+  html, body {
     overflow-x: hidden;
   }
 
   body {
-    margin: 0;
     background: var(--bg);
     color: var(--ink);
     font-family: var(--font-sans);
     font-size: var(--text);
     line-height: 1.7;
     -webkit-font-smoothing: antialiased;
-    text-rendering: optimizeLegibility;
+    -webkit-text-size-adjust: 100%;
+    text-size-adjust: 100%;
   }
 
-  h1,
-  h2,
-  h3 {
-    font-family: var(--font-sans);
+  body.menu-open {
+    overflow: hidden;
+    touch-action: none;
+  }
+
+  /* ── 焦点：仅键盘可见 ── */
+  :focus { outline: none; }
+  :focus-visible {
+    outline: 2px solid var(--accent);
+    outline-offset: 3px;
+    border-radius: 4px;
+  }
+
+  /* ── 防浏览器强制深色反转 ── */
+  img, svg, video {
+    color-scheme: light only;
+    forced-color-adjust: none;
+  }
+
+  /* ── 排版 ── */
+  h1, h2, h3 {
     font-weight: 700;
     line-height: 1.15;
-    letter-spacing: -0.015em;
-    margin: 0;
+    letter-spacing: -0.02em;
   }
 
-  p {
-    margin: 0;
-  }
-
-  a {
-    color: inherit;
-    text-decoration: none;
-  }
-
-  ul,
-  ol {
-    margin: 0;
-    padding: 0;
-    list-style: none;
-  }
-
-  img,
-  svg {
-    max-width: 100%;
-    display: block;
-  }
+  a { color: inherit; text-decoration: none; }
+  ul, ol { list-style: none; }
+  img, svg { max-width: 100%; display: block; }
+  img { height: auto; }
 
   .sr-only {
     position: absolute;
-    width: 1px;
-    height: 1px;
-    padding: 0;
-    margin: -1px;
+    width: 1px; height: 1px;
+    padding: 0; margin: -1px;
     overflow: hidden;
     clip: rect(0 0 0 0);
     white-space: nowrap;
     border: 0;
   }
 
-  :focus-visible {
-    outline: 2px solid var(--accent);
-    outline-offset: 3px;
-    border-radius: 2px;
-  }
-
-  ::selection {
-    background: var(--accent-soft);
-    color: var(--ink);
-  }
+  ::selection { background: var(--accent-soft); }
 }
